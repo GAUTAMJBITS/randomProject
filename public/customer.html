@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e9f5f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+    .card h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    .card button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .card button:hover {
+      background-color: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Customer Dashboard</h2>
+    <button onclick="window.location.href='/api/products'">Browse Products</button>
+    <button onclick="window.location.href='/cart.html'">View Cart</button>
+    <button onclick="window.location.href='/orders.html'">My Orders</button>
+  </div>
+</body>
+</html>

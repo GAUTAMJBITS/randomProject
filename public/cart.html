@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <ul id="cartList"></ul>
+<script>
+  async function loadCart() {
+    const res = await fetch('/api/cart', {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+    });
+    const data = await res.json();
+    const list = document.getElementById('cartList');
+    list.innerHTML = '';
+    data.items.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.product.name} - Quantity: ${item.quantity}`;
+      list.appendChild(li);
+    });
+  }
+  loadCart();
+</script>
+</body>
+</html>

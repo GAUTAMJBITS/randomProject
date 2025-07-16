@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Listing</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #auth-card {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 230px;
+      z-index: 10;
+    }
+    #profile-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="bg-light position-relative">
+
+  <!-- Auth Card -->
+  <div id="auth-card" class="card text-center shadow-sm p-3">
+    <img src="https://via.placeholder.com/60" id="profile-img" alt="Profile" class="mx-auto">
+    <p class="mt-2 mb-2 fw-semibold">Welcome!</p>
+    <a href="login.html" class="btn btn-sm btn-outline-primary mb-2">Login</a>
+    <a href="register.html" class="btn btn-sm btn-outline-success">Register</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Products</h2>
+      <button class="btn btn-outline-dark" onclick="toggleTheme()">Toggle Dark/Light</button>
+    </div>
+    
+    <div class="input-group mb-4">
+      <input type="text" id="search" class="form-control" placeholder="Search by name or category">
+      <button class="btn btn-primary" onclick="loadProducts()">Search</button>
+    </div>
+    
+    <ul id="productList" class="list-group shadow-sm"></ul>
+  </div>
+
+  <script>
+    async function loadProducts(page = 1) {
+      const name = document.getElementById('search').value;
+      const res = await fetch(`/api/products?page=${page}&name=${name}`);
+      const products = await res.json();
+      const list = document.getElementById('productList');
+      list.innerHTML = "";
+      products.forEach(p => {
+        const li = document.createElement('li');
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.textContent = `${p.name}`;
+        const span = document.createElement('span');
+        span.innerHTML = `₹<strong>${p.price}</strong>`;
+        li.appendChild(span);
+        list.appendChild(li);
+      });
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const isDark = body.classList.toggle('bg-dark');
+      body.classList.toggle('text-white');
+      document.querySelectorAll('.card').forEach(card => card.classList.toggle('bg-dark'));
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    window.onload = () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('bg-dark', 'text-white');
+        document.querySelectorAll('.card').forEach(card => card.classList.add('bg-dark'));
+      }
+      loadProducts();
+    };
+  </script>
+</body>
+</html>
